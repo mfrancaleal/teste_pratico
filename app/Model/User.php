@@ -1,37 +1,56 @@
 <?php
+App::uses('AppModel', 'Model');
+/**
+ * User Model
+ *
+ */
+class User extends AppModel {
 
-class User extends AppModel
-{
-    public function beforeSave($options = array())
-       {
-           if(isset($this->data['User']['password']))
-           {
-               $this->data['User']['password'] = Security::hash($this->data['User']['password'], 'sha256', true);
-           }
-           
-         return TRUE;
-       }
-       
-    public $name = 'User';
-    public $validate = array(
-        'username' => array(
-            'required' => array(
-                'rule' => 'email',
-                'message' => 'Informe um email válido'
-            )
-        ),
-        'password' => array(
-            'required' => array(
-                'rule' => array('notEmpty'),
-                'message' => 'Informe uma senha'
-            )
-        ),
-        'nome' => array(
-            'required' => array(
-                'rule' => array('notEmpty'),
-                'message' => 'Informe seu nome'
-            )
-        )
-    );
+/**
+ * Validation rules
+ *
+ * @var array
+ */
+	public $validate = array(
+		'nome' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'username' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'password' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'ativo' => array(
+			'boolean' => array(
+				'rule' => array('boolean'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+	);
 }
-?>

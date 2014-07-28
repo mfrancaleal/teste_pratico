@@ -33,25 +33,7 @@ App::uses('Controller', 'Controller');
 
 class AppController extends Controller{
        
-    public $components = array(
-        'Session',
-        'Auth' => array(
-            'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
-            'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
-            'authError' => 'Você precisa estar logado',
-            'authorize' => array('Controller')
-        )
-    );
-
-    public function isAuthorized($user)
-    {
-        return TRUE;
-    }
-     
-    public function beforeFilter()
-    {
-        Security::setHash('sha256');
-        $this->set('logged_in', $this->Auth->loggedIn());
-        $this->set('current_user', $this->Auth->user());
-    }
+    var $components = array('Auth');
+    
+    
 }

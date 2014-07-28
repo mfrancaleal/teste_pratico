@@ -32,49 +32,26 @@ App::uses('Controller', 'Controller');
  */
 
 class AppController extends Controller{
-	//COMP QUE SÃO UTILIZADOS EM TODA APLICAÇÃO
-	public $components = array('Session', 'Cookie', 'Auth');
-	
-        public function index() 
-	{
-		
-	}
-        
-        public function beforeFilter() {
-    
-        // Model de usuários
-        $this->Auth->userModel = 'Cliente';
-        // Campos de usuário e senha
-        $this->Auth->fields = array(
-            'username' => 'email',
-            'password' => 'senha'
-        );
-        // Condição de usuário ativo/válido (opcional)
-        $this->Auth->userScope = array(
-            'Cliente.ativo' => true
-        );
-        // Action da tela de login
-        $this->Auth->loginAction = array(
-            'controller' => 'clientes',
-            'action' => 'login'
-        );
-        // Action da tela após o login (com sucesso)
-        $this->Auth->loginRedirect = array(
-            'controller' => 'clientes',
-            'action' => 'home'
-        );
-         
-        // Action para redirecionamento após o logout
-        $this->Auth->logoutRedirect = array(
-            'controller' => 'pages',
-            'action' => 'display', 'home'
-        );
-         
-        // Mensagens de erro
-        $this->Auth->loginError = __('Dados(s) incorretos(s)', true);
-        $this->Auth->authError = __('Acesso permitido com login', true);
-		
-		
-    }
+       
+    public $components = array(
+        'Session',
+        'Auth' => array(
+            'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
+            'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
+            'authError' => 'Você precisa estar logado',
+            'authorize' => array('Controller')
+        )
+    );
 
+    public function isAuthorized($user)
+    {
+        return TRUE;
+    }
+     
+    public function beforeFilter()
+    {
+        Security::setHash('sha256');
+        $this->set('logged_in', $this->Auth->loggedIn());
+        $this->set('current_user', $this->Auth->user());
+    }
 }
